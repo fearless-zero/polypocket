@@ -28,5 +28,7 @@ def kelly_size(confidence: float, price: float, bankroll: float = 2000.0) -> flo
 
 
 def format_pnl(pnl: float) -> str:
-    sign = "+" if pnl >= 0 else ""
-    return f"{sign}${pnl:.2f}"
+    if pnl >= 0:
+        return f"+${pnl:.2f}"
+    else:
+        return f"-${abs(pnl):.2f}"

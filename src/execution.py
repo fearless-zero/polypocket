@@ -62,6 +62,7 @@ async def execute_trade(signal: dict, market: dict) -> Optional[dict]:
         token_id=token_id,
         price=market["best_ask"][signal["direction"].lower()],
         size=signal["size"],
+        side="buy",  # always buy shares
     )
 
     if order is None or order.get("status") == "failed":
