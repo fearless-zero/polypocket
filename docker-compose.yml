@@ -1,0 +1,25 @@
+services:
+  bot:
+    build: .
+    container_name: polypocket
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+    command: ["--mode", "live", "--session", "overnight"]
+
+  # Paper trading instance (no real orders)
+  paper:
+    build: .
+    container_name: polypocket-paper
+    restart: "no"
+    env_file:
+      - .env
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+    command: ["--mode", "paper", "--session", "test"]
+    profiles:
+      - paper
