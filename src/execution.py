@@ -6,7 +6,6 @@ Sweet spot: 60-180 seconds after market open.
 """
 
 import asyncio
-import time
 from typing import Optional
 
 from py_clob_client.client import ClobClient
@@ -54,8 +53,7 @@ async def execute_trade(signal: dict, market: dict) -> Optional[dict]:
     if seconds_since_open > 180:
         return None
 
-    # Place limit order at current best price
-    side = "buy" if signal["direction"] == "UP" else "buy"  # always buy shares
+    # Place limit order at current best price (always buy shares)
     token_id = (
         market["up_token"] if signal["direction"] == "UP" else market["down_token"]
     )

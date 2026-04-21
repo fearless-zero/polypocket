@@ -10,7 +10,6 @@ Early exit takes 60-70% of potential profit but eliminates that risk.
 
 import asyncio
 import time
-from typing import Optional
 
 from .execution import place_limit_order, get_clob_client
 
@@ -28,8 +27,6 @@ async def get_current_price(token_id: str) -> float:
 
 async def sell_shares(position: dict, current_price: float) -> dict:
     """Sell position at current market price."""
-    client = get_clob_client()
-
     order = await place_limit_order(
         token_id=position["token_id"],
         price=current_price,

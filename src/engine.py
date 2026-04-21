@@ -5,16 +5,14 @@ Main engine loop - one market lifecycle per 5-minute window.
 
 import asyncio
 import argparse
-import time
 from datetime import datetime
 
 from .prices import get_prices
-from .orderbook import get_order_book, calculate_imbalance, detect_smart_entry
+from .orderbook import get_order_book
 from .signals import should_trade
-from .execution import execute_trade, place_limit_order
+from .execution import execute_trade
 from .monitor import monitor_position
 from .market import get_next_market, wait_for_entry_window, wait_for_next_market
-from .utils import kelly_size
 
 
 async def run_engine(mode: str = "live", session: str = "default"):
@@ -41,14 +39,14 @@ async def run_engine(mode: str = "live", session: str = "default"):
         signal = should_trade(prices, order_book, market)
 
         if signal is None:
-            print(f"  SKIP — no signal convergence")
+            print("  SKIP — no signal convergence")
             await wait_for_next_market(market)
             continue
 
         # Execute
         position = await execute_trade(signal, market)
         if position is None:
-            print(f"  SKIP — execution window missed")
+            print("  SKIP — execution window missed")
             await wait_for_next_market(market)
             continue
 
