@@ -78,3 +78,4 @@ engine.py           — main loop, one lifecycle per 5-min window
 ---
 
 **DYOR. This is not financial advice. You will have losing days.**
+# polypocket
