@@ -72,9 +72,10 @@ async def test_get_next_market_retries_on_error():
         },
     ]
 
-    with patch("src.market.get_clob_client", return_value=mock_client), \
-         patch("asyncio.sleep", new=AsyncMock()):
-
+    with (
+        patch("src.market.get_clob_client", return_value=mock_client),
+        patch("asyncio.sleep", new=AsyncMock()),
+    ):
         market = await get_next_market()
         assert market is not None
 

@@ -22,9 +22,8 @@ def should_trade(price_data: dict, order_book: dict, market: dict) -> dict | Non
     binance_delta = price_data["binance"] - market["price_to_beat"]
     coinbase_delta = price_data["coinbase"] - market["price_to_beat"]
 
-    exchanges_agree = (
-        (binance_delta > 50 and coinbase_delta > 50) or
-        (binance_delta < -50 and coinbase_delta < -50)
+    exchanges_agree = (binance_delta > 50 and coinbase_delta > 50) or (
+        binance_delta < -50 and coinbase_delta < -50
     )
 
     if not exchanges_agree:
@@ -34,9 +33,8 @@ def should_trade(price_data: dict, order_book: dict, market: dict) -> dict | Non
 
     # Signal 2: Order book confirmation
     imbalance = calculate_imbalance(order_book)
-    book_confirms = (
-        (direction == "UP" and imbalance > 1.8) or
-        (direction == "DOWN" and imbalance < 0.55)
+    book_confirms = (direction == "UP" and imbalance > 1.8) or (
+        direction == "DOWN" and imbalance < 0.55
     )
 
     if not book_confirms:

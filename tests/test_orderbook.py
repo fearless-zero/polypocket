@@ -114,7 +114,9 @@ async def test_get_order_book():
     # Mock websockets.connect
     mock_ws = AsyncMock()
     mock_ws.send = AsyncMock()
-    mock_ws.recv = AsyncMock(return_value='{"type": "book", "asset_id": "token_123", "bids": [[0.55, 1000]], "asks": [[0.56, 500]]}')
+    mock_ws.recv = AsyncMock(
+        return_value='{"type": "book", "asset_id": "token_123", "bids": [[0.55, 1000]], "asks": [[0.56, 500]]}'
+    )
     mock_ws.__aenter__ = AsyncMock(return_value=mock_ws)
     mock_ws.__aexit__ = AsyncMock()
 

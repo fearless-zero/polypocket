@@ -19,16 +19,20 @@ os.environ["BANKROLL"] = "2000"
 def mock_polymarket_client():
     """Mock Polymarket CLOB client."""
     client = MagicMock()
-    client.get_order_book = MagicMock(return_value={
-        "bids": [{"price": 0.55, "size": 1000}] * 10,
-        "asks": [{"price": 0.56, "size": 400}] * 10,
-    })
-    client.create_order = AsyncMock(return_value={
-        "orderID": "test_order_123",
-        "status": "live",
-        "price": 0.50,
-        "size": 100,
-    })
+    client.get_order_book = MagicMock(
+        return_value={
+            "bids": [{"price": 0.55, "size": 1000}] * 10,
+            "asks": [{"price": 0.56, "size": 400}] * 10,
+        }
+    )
+    client.create_order = AsyncMock(
+        return_value={
+            "orderID": "test_order_123",
+            "status": "live",
+            "price": 0.50,
+            "size": 100,
+        }
+    )
     client.cancel_order = AsyncMock(return_value={"status": "cancelled"})
     return client
 

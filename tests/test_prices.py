@@ -23,10 +23,12 @@ async def test_get_prices_success():
         mock_session_instance = MagicMock()
         mock_session_instance.__aenter__ = AsyncMock(return_value=mock_session_instance)
         mock_session_instance.__aexit__ = AsyncMock()
-        mock_session_instance.get = MagicMock(side_effect=[
-            mock_binance_get(),
-            mock_coinbase_get(),
-        ])
+        mock_session_instance.get = MagicMock(
+            side_effect=[
+                mock_binance_get(),
+                mock_coinbase_get(),
+            ]
+        )
         mock_session.return_value = mock_session_instance
 
         with patch("src.prices.get_chainlink_price", return_value=105000.0):
@@ -43,7 +45,11 @@ def test_get_chainlink_price():
 
     mock_contract = MagicMock()
     mock_contract.functions.latestRoundData.return_value.call.return_value = (
-        1, 10500000000000, 1234567890, 1234567890, 1  # answer with 8 decimals
+        1,
+        10500000000000,
+        1234567890,
+        1234567890,
+        1,  # answer with 8 decimals
     )
 
     with patch("src.prices.Web3") as mock_web3_class:

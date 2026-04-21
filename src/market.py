@@ -73,6 +73,7 @@ async def wait_for_next_market(market: dict):
     resolution_time = market.get("resolution_time", 0)
     if isinstance(resolution_time, str):
         from datetime import datetime
+
         resolution_time = datetime.fromisoformat(resolution_time.replace("Z", "+00:00")).timestamp()
 
     remaining = resolution_time - time.time()

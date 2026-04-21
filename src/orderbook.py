@@ -41,9 +41,7 @@ def detect_smart_entry(
     If imbalance spikes during that window, it's a signal.
     """
     early_window = [
-        ib
-        for ib in imbalance_history
-        if 30 <= ib["seconds_since_open"] <= window_seconds
+        ib for ib in imbalance_history if 30 <= ib["seconds_since_open"] <= window_seconds
     ]
 
     if not early_window:
@@ -61,9 +59,7 @@ def detect_smart_entry(
         return {
             "direction": "DOWN",
             "strength": 1 / min(ib["ratio"] for ib in early_window),
-            "confidence": min(
-                (1 / min(ib["ratio"] for ib in early_window)) / 2.5, 0.95
-            ),
+            "confidence": min((1 / min(ib["ratio"] for ib in early_window)) / 2.5, 0.95),
         }
 
     return None

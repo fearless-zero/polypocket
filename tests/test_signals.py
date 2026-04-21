@@ -1,7 +1,6 @@
 """Tests for signals module - signal combination logic."""
 
 
-
 def test_should_trade_both_signals_up(mock_prices_up, mock_orderbook_bullish, mock_market):
     """Test UP signal when both price divergence and order book agree."""
     from src.signals import should_trade
@@ -57,7 +56,9 @@ def test_should_trade_no_signal_book_neutral(mock_prices_up, mock_orderbook_neut
     assert signal is None
 
 
-def test_should_trade_no_signal_wrong_book_direction(mock_prices_up, mock_orderbook_bearish, mock_market):
+def test_should_trade_no_signal_wrong_book_direction(
+    mock_prices_up, mock_orderbook_bearish, mock_market
+):
     """Test no signal when order book contradicts price divergence."""
     from src.signals import should_trade
 

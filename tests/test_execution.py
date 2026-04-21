@@ -42,7 +42,10 @@ async def test_execute_trade_within_window(mock_market, mock_polymarket_client):
     # Set market elapsed_seconds to be 90 (within window)
     mock_market["elapsed_seconds"] = 90
 
-    with patch("src.execution.place_limit_order", new=AsyncMock(return_value={"orderID": "test_123", "status": "live"})):
+    with patch(
+        "src.execution.place_limit_order",
+        new=AsyncMock(return_value={"orderID": "test_123", "status": "live"}),
+    ):
         position = await execute_trade(signal, mock_market)
 
         assert position is not None
@@ -62,7 +65,10 @@ async def test_execute_trade_too_early(mock_market):
     mock_market["elapsed_seconds"] = 10
 
     with patch("asyncio.sleep", new=AsyncMock()) as mock_sleep:
-        with patch("src.execution.place_limit_order", new=AsyncMock(return_value={"orderID": "test", "status": "live"})):
+        with patch(
+            "src.execution.place_limit_order",
+            new=AsyncMock(return_value={"orderID": "test", "status": "live"}),
+        ):
             await execute_trade(signal, mock_market)
 
             # Should wait for remaining time to reach 60s
@@ -107,7 +113,10 @@ async def test_execute_trade_down_direction(mock_market):
     signal = {"direction": "DOWN", "size": 100, "confidence": 0.75}
     mock_market["elapsed_seconds"] = 90
 
-    with patch("src.execution.place_limit_order", new=AsyncMock(return_value={"orderID": "test_123", "status": "live"})):
+    with patch(
+        "src.execution.place_limit_order",
+        new=AsyncMock(return_value={"orderID": "test_123", "status": "live"}),
+    ):
         position = await execute_trade(signal, mock_market)
 
         assert position is not None

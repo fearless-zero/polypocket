@@ -12,9 +12,10 @@ async def test_monitor_position_profit_target(mock_position):
 
     mock_position["market"]["resolution_time"] = time.time() + 200
 
-    with patch("src.monitor.get_current_price", return_value=0.76), \
-         patch("src.monitor.sell_shares", new=AsyncMock(return_value={"status": "filled"})):
-
+    with (
+        patch("src.monitor.get_current_price", return_value=0.76),
+        patch("src.monitor.sell_shares", new=AsyncMock(return_value={"status": "filled"})),
+    ):
         result = await monitor_position(mock_position, mock_position["market"])
 
         assert result["exit"] == "PROFIT_TARGET"
@@ -29,9 +30,10 @@ async def test_monitor_position_stop_loss(mock_position):
 
     mock_position["market"]["resolution_time"] = time.time() + 200
 
-    with patch("src.monitor.get_current_price", return_value=0.33), \
-         patch("src.monitor.sell_shares", new=AsyncMock(return_value={"status": "filled"})):
-
+    with (
+        patch("src.monitor.get_current_price", return_value=0.33),
+        patch("src.monitor.sell_shares", new=AsyncMock(return_value={"status": "filled"})),
+    ):
         result = await monitor_position(mock_position, mock_position["market"])
 
         assert result["exit"] == "STOP_LOSS"

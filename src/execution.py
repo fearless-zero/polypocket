@@ -54,9 +54,7 @@ async def execute_trade(signal: dict, market: dict) -> Optional[dict]:
         return None
 
     # Place limit order at current best price (always buy shares)
-    token_id = (
-        market["up_token"] if signal["direction"] == "UP" else market["down_token"]
-    )
+    token_id = market["up_token"] if signal["direction"] == "UP" else market["down_token"]
 
     order = await place_limit_order(
         token_id=token_id,
