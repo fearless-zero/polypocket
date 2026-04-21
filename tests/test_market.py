@@ -10,7 +10,7 @@ def test_get_clob_client():
     from src.market import get_clob_client
 
     with patch("src.market.ClobClient") as mock_clob:
-        client = get_clob_client()
+        get_clob_client()
         assert mock_clob.called
 
 

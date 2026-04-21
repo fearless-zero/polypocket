@@ -2,7 +2,6 @@
 
 import pytest
 from unittest.mock import AsyncMock, patch, MagicMock
-import time
 
 
 @pytest.mark.asyncio
@@ -121,5 +120,5 @@ def test_get_clob_client():
     from src.execution import get_clob_client
 
     with patch("src.execution.ClobClient") as mock_clob:
-        client = get_clob_client()
+        get_clob_client()
         assert mock_clob.called

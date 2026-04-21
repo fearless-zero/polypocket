@@ -1,6 +1,5 @@
 """Tests for signals module - signal combination logic."""
 
-import pytest
 
 
 def test_should_trade_both_signals_up(mock_prices_up, mock_orderbook_bullish, mock_market):
