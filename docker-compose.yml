@@ -6,10 +6,15 @@ services:
     pull_policy: always
     container_name: polypocket
     restart: unless-stopped
-    env_file:
-      - .env
     environment:
       - PYTHONUNBUFFERED=1
+      - POLYMARKET_API_KEY=${POLYMARKET_API_KEY}
+      - POLYMARKET_API_SECRET=${POLYMARKET_API_SECRET}
+      - POLYMARKET_API_PASSPHRASE=${POLYMARKET_API_PASSPHRASE}
+      - CHAINLINK_RPC=${CHAINLINK_RPC:-https://polygon-rpc.com}
+      - BANKROLL=${BANKROLL:-2000}
+      - PROFIT_TARGET=${PROFIT_TARGET:-0.75}
+      - STOP_LOSS=${STOP_LOSS:-0.35}
     volumes:
       - polypocket_logs:/app/logs
       - polypocket_data:/app/data
@@ -42,10 +47,13 @@ services:
     pull_policy: always
     container_name: polypocket-paper
     restart: "no"
-    env_file:
-      - .env
     environment:
       - PYTHONUNBUFFERED=1
+      - POLYMARKET_API_KEY=${POLYMARKET_API_KEY}
+      - POLYMARKET_API_SECRET=${POLYMARKET_API_SECRET}
+      - POLYMARKET_API_PASSPHRASE=${POLYMARKET_API_PASSPHRASE}
+      - CHAINLINK_RPC=${CHAINLINK_RPC:-https://polygon-rpc.com}
+      - BANKROLL=${BANKROLL:-2000}
     volumes:
       - polypocket_logs:/app/logs
       - polypocket_data:/app/data
