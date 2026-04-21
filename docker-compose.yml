@@ -1,25 +1,85 @@
+version: '3.9'
+
 services:
   bot:
-    build: .
+    image: ghcr.io/${GITHUB_REPOSITORY:-user/polypocket}:latest
+    pull_policy: always
     container_name: polypocket
     restart: unless-stopped
     env_file:
       - .env
+    environment:
+      - PYTHONUNBUFFERED=1
     volumes:
-      - ./logs:/app/logs
-      - ./data:/app/data
+      - polypocket_logs:/app/logs
+      - polypocket_data:/app/data
     command: ["--mode", "live", "--session", "overnight"]
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '1'
+          memory: 512M
+    healthcheck:
+      test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - polypocket-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   # Paper trading instance (no real orders)
   paper:
-    build: .
+    image: ghcr.io/${GITHUB_REPOSITORY:-user/polypocket}:latest
+    pull_policy: always
     container_name: polypocket-paper
     restart: "no"
     env_file:
       - .env
+    environment:
+      - PYTHONUNBUFFERED=1
     volumes:
-      - ./logs:/app/logs
-      - ./data:/app/data
+      - polypocket_logs:/app/logs
+      - polypocket_data:/app/data
     command: ["--mode", "paper", "--session", "test"]
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+    healthcheck:
+      test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - polypocket-network
     profiles:
       - paper
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  polypocket_logs:
+    driver: local
+  polypocket_data:
+    driver: local
+
+networks:
+  polypocket-network:
+    driver: bridge
